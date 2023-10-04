@@ -1,13 +1,13 @@
 package dev.camilo.jsonread.post;
 
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-@RestController
+@Controller
 @RequestMapping("/api/post")
 public class PostController {
 
@@ -17,9 +17,14 @@ public class PostController {
     this.postRepository = postRepository;
   }
 
-  @GetMapping
-  List<Post> findAll() {
+  @QueryMapping
+  List<Post> findAllPosts() {
     return postRepository.findAll();
+  }
+
+  @QueryMapping
+  Post findPostById(@Argument String id) {
+    return postRepository.findById(id).orElseThrow();
   }
 
 }
